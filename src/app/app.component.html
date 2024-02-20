@@ -6,4 +6,9 @@
 
 <crm-login></crm-login>
 
+<crm-dummy label="coucou" label2="coucou2"
+      (clicked)="handle($event)"></crm-dummy>
+
+<crm-dummy [label]="title"
+      (clicked)="handle2($event)"></crm-dummy>
 

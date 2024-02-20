@@ -5,10 +5,9 @@
         <mat-label for="login">Login</mat-label>
         <input matInput type="text" name="login" formControlName="login">
       </mat-form-field>
-      <span *ngIf="loginForm.get('login')?.touched">
-        <span *ngIf="loginForm.get('login')?.errors?.['required']">Enter a login</span>
-        <span *ngIf="loginForm.get('login')?.errors?.['minlength']">more than 3 char</span>
-      </span>
+      <crm-help [field]="loginForm.get('login')"
+            [errorMessages]="loginErrorMessages"
+      ></crm-help>
     </p>
     <p>
       <mat-form-field>
