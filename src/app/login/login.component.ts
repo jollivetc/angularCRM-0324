@@ -25,6 +25,9 @@ export class LoginComponent {
       login: new FormControl('', [Validators.required, Validators.minLength(3)]),
       password: new FormControl('', [Validators.required, no$InPassword])
     })
+    if(this.authent.isAuthenticated){
+      this.authent.disconnect();
+    }
   }
 
   onSubmit():void{
