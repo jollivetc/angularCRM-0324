@@ -8,10 +8,4 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'angularCRM';
 
-  handle($event:string):void{
-    console.log($event)
-  }
-  handle2($event:string):void{
-    console.error($event)
-  }
 }
