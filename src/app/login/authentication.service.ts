@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { User } from './model/user';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
 const CRM_USER_KEY='angularCRM.user.key';
+const CRM_TOKEN_KEY='angularCRM.jwt.key';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +12,20 @@ const CRM_USER_KEY='angularCRM.user.key';
 export class AuthenticationService {
 
   private currentUser?:User;
-  constructor() {
+  private jwtToken?:string;
+
+  constructor(private http:HttpClient) {
     if(sessionStorage.getItem(CRM_USER_KEY)!==null){
       this.currentUser = JSON.parse(sessionStorage.getItem(CRM_USER_KEY)!);
     }
+    if(sessionStorage.getItem(CRM_TOKEN_KEY)!==null){
+      this.jwtToken = sessionStorage.getItem(CRM_TOKEN_KEY)!;
+    }
   }
 
+  get jwt():string|undefined{
+    return this.jwtToken;
+  }
   get isAuthenticated():boolean{
     return !!this.currentUser;
   }
@@ -24,14 +35,23 @@ export class AuthenticationService {
     sessionStorage.clear()
   }
 
-  authentUser(login:string, password:string):User{
-    this.currentUser= {
-      id:1,
-      login:login,
-      firstname:'John',
-      lastname:'Doe'
-    }
-    sessionStorage.setItem(CRM_USER_KEY, JSON.stringify(this.currentUser));
-    return this.currentUser
+  authentUser(login:string, password:string):Observable<User>{
+    return this.http.post<AuthentResponse>('/api/auth/login', {email:login, password:password})
+        .pipe(
+          map((resp:AuthentResponse)=>{
+            this.currentUser = resp.user;
+            this.jwtToken= resp.token;
+
+            sessionStorage.setItem(CRM_USER_KEY, JSON.stringify(this.currentUser));
+            sessionStorage.setItem(CRM_TOKEN_KEY, this.jwtToken);
+
+            return this.currentUser;
+          })
+        )
   }
+}
+
+interface AuthentResponse{
+  user:User,
+  token:string
 }

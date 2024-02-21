@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { User } from './model/user';
 
 @Component({
   selector: 'crm-login',
@@ -32,11 +33,12 @@ export class LoginComponent {
 
   onSubmit():void{
     console.log(this.loginForm.value)
-    const user = this.authent.authentUser(this.loginForm.value.login,
-                  this.loginForm.value.password);
-    if(user){
-      this.router.navigateByUrl('/home');
-    }
+    this.authent.authentUser(this.loginForm.value.login,
+                  this.loginForm.value.password).subscribe({
+            next: (user:User)=>{this.router.navigateByUrl('/home')},
+            error:(error:Error)=>{alert('Oups')},
+            complete: ()=>{}
+        });
   }
 }
 
