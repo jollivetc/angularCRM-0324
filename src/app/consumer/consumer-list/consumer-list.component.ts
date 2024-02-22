@@ -11,11 +11,20 @@ import { Consumer } from '../model/consumer';
 export class ConsumerListComponent implements OnInit {
 
   consumersObs?:Observable<Consumer[]>
+  searched:string=''
 
   constructor(private consumerService:ConsumerService){}
 
   ngOnInit(): void {
-    this.consumersObs = this.consumerService.getAll();
+    this.getConsumers
+  }
+
+  private getConsumers(){
+    this.consumersObs = this.consumerService.getConsumers(this.searched);
+  }
+
+  search():void {
+    this.getConsumers();
   }
 
 

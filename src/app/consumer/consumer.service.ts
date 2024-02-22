@@ -10,7 +10,11 @@ export class ConsumerService {
 
   constructor(private http:HttpClient) { }
 
-  getAll():Observable<Consumer[]>{
+  getConsumers(searched:string):Observable<Consumer[]>{
+    if(searched){
+      return this.http.get<Consumer[]>(`/api/consumers?q=${searched}`)
+    }
     return this.http.get<Consumer[]>('/api/consumers')
   }
+
 }

@@ -1,1 +1,22 @@
-{{consumersObs | async | json}}
+<input type="text" [(ngModel)]="searched" (keyup)="search()">
+
+<table>
+  <thead>
+    <tr>
+      <td>id</td>
+      <td>Firstname</td>
+      <td>Lastname</td>
+      <td>phone</td>
+      <td>email</td>
+      <td>action</td>
+    </tr>
+  </thead>
+  <tr *ngFor="let consumer of consumersObs | async">
+    <td>{{consumer.id}}</td>
+    <td>{{consumer.firstname}}</td>
+    <td>{{consumer.lastname}}</td>
+    <td>{{consumer.phone}}</td>
+    <td>{{consumer.email}}</td>
+    <td></td>
+  </tr>
+</table>
