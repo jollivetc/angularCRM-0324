@@ -16,7 +16,7 @@ export class ConsumerListComponent implements OnInit {
   constructor(private consumerService:ConsumerService){}
 
   ngOnInit(): void {
-    this.getConsumers
+    this.getConsumers();
   }
 
   private getConsumers(){
