@@ -27,5 +27,13 @@ export class ConsumerListComponent implements OnInit {
     this.getConsumers();
   }
 
+  delete(id:number):void{
+    this.consumerService.delete(id).subscribe({
+      next:(value:void)=>this.getConsumers(),
+      error:(error:Error)=>console.log(error),
+      complete:()=>{}
+    });
+  }
+
 
 }
