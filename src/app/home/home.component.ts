@@ -10,6 +10,7 @@ import { Observable, Subject, Subscription, catchError, map, of, take } from 'rx
 export class HomeComponent implements OnDestroy{
 
   myObs?:Observable<number>;
+  myphone:string='0123456789'
   private subs:Subscription[]=[];
 
   constructor(private demoObs:DemoObservableService){}
